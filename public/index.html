@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PrismClause - ToS Red Flag Scanner</title>
+    <meta
+      name="description"
+      content="PrismClause scans terms and privacy policies for sketchy clauses, explains them in plain English, and shows legalese complexity."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="PrismClause - ToS Red Flag Scanner" />
+    <meta
+      property="og:description"
+      content="Paste a policy URL, upload PDF, or text. Get the 5 riskiest clauses translated into plain English."
+    />
+    <meta property="og:image" content="/share-card.svg" />
+    <meta property="og:image:alt" content="PrismClause app preview card" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PrismClause - ToS Red Flag Scanner" />
+    <meta
+      name="twitter:description"
+      content="Find risky contract clauses in seconds with strict/broad scanning."
+    />
+    <meta name="twitter:image" content="/share-card.svg" />
+    <meta name="theme-color" content="#5b38ff" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="apple-touch-icon" href="/logo.svg" />
+    <link rel="stylesheet" href="./styles.css?v=20260420c" />
+  </head>
+  <body>
+    <div class="bg-video-wrap" aria-hidden="true">
+      <video
+        id="bg-video"
+        class="bg-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        webkit-playsinline
+        preload="auto"
+      >
+        <source src="/background.mp4?v=20260420h" type="video/mp4" />
+      </video>
+    </div>
+    <div class="cursor-glow" id="cursor-glow"></div>
+    <canvas id="spark-layer" class="spark-layer" aria-hidden="true"></canvas>
+    <div class="blob blob-a"></div>
+    <div class="blob blob-b"></div>
+    <div class="blob blob-c"></div>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-logo" aria-hidden="true">◆</span>
+          <span>PrismClause</span>
+        </div>
+      </header>
+
+      <header class="hero">
+        <h1>See what a policy is really asking from you</h1>
+        <p class="lead">
+          Scan a policy URL, PDF, or pasted text and get the riskiest clauses in plain English.
+        </p>
+      </header>
+
+      <section class="studio">
+        <aside class="pinboard">
+          <h2>Common red flags</h2>
+          <div class="note-grid">
+            <span class="note">Forced arbitration clauses</span>
+            <span class="note">Auto-renew billing traps</span>
+            <span class="note">Broad data sharing rights</span>
+          </div>
+        </aside>
+
+        <form id="scan-form" autocomplete="off">
+          <div class="field">
+            <label>Analysis mode</label>
+            <div class="mode-toggle" role="radiogroup" aria-label="Analysis mode">
+              <label class="mode-option">
+                <input type="radio" name="scanMode" value="broad" checked />
+                <span>Broad</span>
+              </label>
+              <label class="mode-option">
+                <input type="radio" name="scanMode" value="strict" />
+                <span>Strict</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="divider"><span>input</span></div>
+
+          <div class="field lane lane-url">
+            <label for="policy-url">Policy URL</label>
+            <input
+              id="policy-url"
+              name="url"
+              type="url"
+              placeholder="https://example.com/privacy-policy"
+            />
+          </div>
+
+          <div class="divider"><span>or</span></div>
+
+          <div class="field lane lane-file">
+            <label for="policy-file">Upload PDF</label>
+            <input id="policy-file" name="policyFile" type="file" accept=".pdf,application/pdf" />
+          </div>
+
+          <div class="divider"><span>or</span></div>
+
+          <div class="field lane lane-text">
+            <label for="policy-text">Paste policy text</label>
+            <textarea
+              id="policy-text"
+              name="policyText"
+              rows="7"
+              placeholder="Paste full terms/privacy policy text here..."
+            ></textarea>
+            <div class="text-meta">
+              <span id="text-length">0 characters</span>
+              <span id="text-reco">Recommended: at least 500 characters</span>
+            </div>
+          </div>
+
+          <button id="scan-btn" type="submit">Scan document</button>
+        </form>
+      </section>
+
+      <p id="status" class="status">Ready to scan.</p>
+      <section id="summary" class="summary hidden"></section>
+      <section id="readability" class="summary hidden"></section>
+      <section id="results" class="results hidden"></section>
+    </main>
+
+    <template id="flag-template">
+      <article class="flag-card">
+        <div class="card-top">
+          <h3 class="flag-title"></h3>
+          <span class="badge"></span>
+        </div>
+        <p class="clause-type"></p>
+        <p class="plain"></p>
+        <p class="impact"></p>
+        <blockquote class="quote"></blockquote>
+        <div class="fun-row">
+          <button type="button" class="react-btn" data-reaction="🔥">🔥 intense</button>
+          <button type="button" class="react-btn" data-reaction="🤨">🤨 sketchy</button>
+          <button type="button" class="react-btn" data-reaction="✅">✅ got it</button>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="./app.js?v=20260420c"></script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="64" y1="60" x2="448" y2="452" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF4FD8"/>
+      <stop offset="0.5" stop-color="#5B38FF"/>
+      <stop offset="1" stop-color="#00D4FF"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="156" y1="132" x2="360" y2="372" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="white" stop-opacity="0.28"/>
+    </linearGradient>
+  </defs>
+  <rect x="32" y="32" width="448" height="448" rx="120" fill="url(#bg)"/>
+  <path d="M156 130C156 123.373 161.373 118 168 118H334C340.627 118 346 123.373 346 130V364C346 370.627 340.627 376 334 376H168C161.373 376 156 370.627 156 364V130Z" fill="url(#glass)"/>
+  <path d="M188 182H314" stroke="#2B1769" stroke-width="18" stroke-linecap="round"/>
+  <path d="M188 236H314" stroke="#2B1769" stroke-width="18" stroke-linecap="round"/>
+  <path d="M188 290H274" stroke="#2B1769" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="344" cy="344" r="72" fill="#120736"/>
+  <path d="M344 304V344L374 362" stroke="white" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

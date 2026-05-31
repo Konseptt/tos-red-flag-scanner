@@ -1,14 +1,23 @@
 {
   "name": "untitled-folder-4",
   "version": "1.0.0",
-  "description": "Terms of Service Red Flag Scanner",
+  "description": "Scan Terms and Privacy policies for risky clauses in plain English.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "node --test"
   },
-  "keywords": [],
+  "homepage": "https://syllabuscal.ranjansharma.info.np",
+  "keywords": [
+    "terms-of-service",
+    "privacy-policy",
+    "legal-tech",
+    "risk-analysis",
+    "policy-scanner",
+    "nodejs",
+    "express"
+  ],
   "author": "",
   "license": "ISC",
   "type": "module",

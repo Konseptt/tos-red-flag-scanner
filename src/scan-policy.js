@@ -17,7 +17,7 @@ export async function scanPolicyForRedFlags(policyText, sourceUrl, options = {})
   };
 
   const payload = {
-    model: "meta/llama-4-maverick-17b-128e-instruct",
+    model: "meta/llama-3.3-70b-instruct",
     messages: [
       {
         role: "system",

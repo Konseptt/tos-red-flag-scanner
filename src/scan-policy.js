@@ -1,6 +1,12 @@
 import OpenAI from "openai";
 import { AppError } from "./security.js";
 
+function usableReply(text) {
+  const trimmed = typeof text === "string" ? text.trim() : "";
+  if (!trimmed || /^!+$/.test(trimmed)) return "";
+  return trimmed;
+}
+
 export async function scanPolicyForRedFlags(policyText, sourceUrl, options = {}) {
   const mode = normalizeScanMode(options.mode);
   const apiKey = process.env.NVIDIA_API_KEY;
@@ -32,13 +38,15 @@ export async function scanPolicyForRedFlags(policyText, sourceUrl, options = {})
       temperature: 1,
       top_p: 0.95,
       max_tokens: 1024,
-      stream: false
+      stream: false,
+      reasoning_effort: "low"
     });
   } catch {
     throw new AppError(502, "Analysis service failed. Please retry in a moment.");
   }
 
-  const rawContent = completion.choices[0]?.message?.content;
+  const message = completion.choices[0]?.message;
+  const rawContent = usableReply(message?.content) || usableReply(message?.reasoning_content);
   if (!rawContent || typeof rawContent !== "string") {
     throw new AppError(502, "Analysis service returned an empty response.");
   }

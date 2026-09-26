@@ -17,7 +17,7 @@ export async function scanPolicyForRedFlags(policyText, sourceUrl, options = {})
   let completion;
   try {
     completion = await client.chat.completions.create({
-      model: "meta/llama-3.3-70b-instruct",
+      model: "moonshotai/kimi-k3",
       messages: [
         {
           role: "system",
@@ -29,8 +29,8 @@ export async function scanPolicyForRedFlags(policyText, sourceUrl, options = {})
           content: createPrompt(policyText, sourceUrl, mode)
         }
       ],
-      temperature: 0.2,
-      top_p: 0.7,
+      temperature: 1,
+      top_p: 0.95,
       max_tokens: 1024,
       stream: false
     });

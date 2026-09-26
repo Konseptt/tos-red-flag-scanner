@@ -1,8 +1,5 @@
-import axios from "axios";
+import OpenAI from "openai";
 import { AppError } from "./security.js";
-
-const invokeUrl = "https://integrate.api.nvidia.com/v1/chat/completions";
-const stream = false;
 
 export async function scanPolicyForRedFlags(policyText, sourceUrl, options = {}) {
   const mode = normalizeScanMode(options.mode);
@@ -11,44 +8,37 @@ export async function scanPolicyForRedFlags(policyText, sourceUrl, options = {})
     throw new AppError(500, "Missing NVIDIA_API_KEY on the server.");
   }
 
-  const headers = {
-    Authorization: `Bearer ${apiKey}`,
-    Accept: stream ? "text/event-stream" : "application/json"
-  };
+  const client = new OpenAI({
+    baseURL: "https://integrate.api.nvidia.com/v1",
+    apiKey,
+    timeout: 30_000
+  });
 
-  const payload = {
-    model: "meta/llama-3.3-70b-instruct",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a contract risk analyst. Return strict JSON only and never include markdown fences."
-      },
-      {
-        role: "user",
-        content: createPrompt(policyText, sourceUrl, mode)
-      }
-    ],
-    max_tokens: 850,
-    temperature: mode === "strict" ? 0.1 : 0.4,
-    top_p: 1.0,
-    frequency_penalty: 0.0,
-    presence_penalty: 0.0,
-    stream
-  };
-
-  let response;
+  let completion;
   try {
-    response = await axios.post(invokeUrl, payload, {
-      headers,
-      responseType: stream ? "stream" : "json",
-      timeout: 30_000
+    completion = await client.chat.completions.create({
+      model: "meta/llama-3.3-70b-instruct",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a contract risk analyst. Return strict JSON only and never include markdown fences."
+        },
+        {
+          role: "user",
+          content: createPrompt(policyText, sourceUrl, mode)
+        }
+      ],
+      temperature: 0.2,
+      top_p: 0.7,
+      max_tokens: 1024,
+      stream: false
     });
   } catch {
     throw new AppError(502, "Analysis service failed. Please retry in a moment.");
   }
 
-  const rawContent = response?.data?.choices?.[0]?.message?.content;
+  const rawContent = completion.choices[0]?.message?.content;
   if (!rawContent || typeof rawContent !== "string") {
     throw new AppError(502, "Analysis service returned an empty response.");
   }
